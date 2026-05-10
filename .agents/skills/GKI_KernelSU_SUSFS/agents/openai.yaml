@@ -1,0 +1,6 @@
+interface:
+  display_name: "GKI KernelSU SUSFS"
+  short_description: "Repo-specific patterns and workflows for GKI_KernelSU_SUSFS"
+  default_prompt: "Use the GKI_KernelSU_SUSFS repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
