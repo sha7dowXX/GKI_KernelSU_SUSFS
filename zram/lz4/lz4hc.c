@@ -75,8 +75,12 @@ typedef enum { noDictCtx, usingDictCtxHc } dictCtx_directive;
 #define LZ4_OPT_NUM (1 << 12)
 
 /*===   Macros   ===*/
+#ifndef MIN
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
+#ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+#endif
 
 /*===   Levels definition   ===*/
 typedef enum { lz4mid, lz4hc, lz4opt } lz4hc_strat_e;
@@ -2024,6 +2028,7 @@ void LZ4_resetStreamHC(LZ4_streamHC_t *LZ4_streamHCPtr, int compressionLevel)
 	LZ4_initStreamHC(LZ4_streamHCPtr, sizeof(*LZ4_streamHCPtr));
 	LZ4_setCompressionLevel(LZ4_streamHCPtr, compressionLevel);
 }
+EXPORT_SYMBOL(LZ4_resetStreamHC);
 
 void LZ4_resetStreamHC_fast(LZ4_streamHC_t *LZ4_streamHCPtr,
 			    int compressionLevel)

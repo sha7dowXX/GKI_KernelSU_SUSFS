@@ -1,123 +1,197 @@
-### 这是一个自动构建GKI内核的仓库
+<div align="center">
 
-> 非GKI可以尝试[SukiSU云盘](https://alist.shirkneko.top)的资源，不支持一加ColorOS14、15
+# GKI KernelSU SUSFS
+### 🏮 2026 🐎 Happy New Year! 🏮
+
+**自动化构建 GKI 内核 | 集成 KernelSU + SUSFS**
+
+[![Release](https://img.shields.io/github/v/release/zzh20188/GKI_KernelSU_SUSFS?label=Release&style=flat-square&logo=github&logoColor=white&color=2ea44f)](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)
+[![Coolapk](https://img.shields.io/badge/Follow-Coolapk-3DDC84?style=flat-square&logo=android&logoColor=white)](http://www.coolapk.com/u/11253396)
+[![KernelSU](https://img.shields.io/badge/KernelSU-Supported-5AA300?style=flat-square)](https://kernelsu.org/)
+[![SUSFS](https://img.shields.io/badge/SUSFS-Integrated-E67E22?style=flat-square)](https://gitlab.com/simonpunk/susfs4ksu)
+
+[**English**](README-EN.md) | 简体中文
+
+---
+
+</div>
+
+## 🚀 快速导航
+
+- 📖 [文档](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
+- 📥 [下载](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)
+- 🔰 [教程](https://zzh20188.github.io/GKI_KernelSU_SUSFS/guide.html)
+
+---
+
+## ⚠️ 兼容性提醒
+
+> **注意：** 目前不支持一加 ColorOS 14、15，刷入后可能需要清除数据开机。
 >
-> 第一次使用务必**详细阅读**以下内容，不要因为懒惰而占用他人时间！
+> **SUKISU最新版:** 已经恢复构建，但不兼容6.12
 >
-> 因SUKISU和NEXT已不在维护旧版本susfs的分支，编译时你无论选择Dev或Stable，都是一样的结果；
->且mksu也无标准/开发版本概念，无论选择哪个都一样，但（KSU的稳定版是最新TAG，也就是[v1.0.5](https://github.com/tiann/KernelSU/tree/v1.0.5)，4月22日发布的那个）
+> 增加了了老版本SukiSU的构建，若使用老版本内核最好搭配同样版本的管理器，老版本完全使用以前的SUKISU和SUSFS代码，因此不包含最近的特性或bug
 > 
-> 最近更新：
-> 1. 6.6 开启KPM
-> 2. 全部 KSU 均恢复编译
-> 3. 由于SUSFS和MKSU等近期更新，已经修改弃用KPROBES钩子，KSU和MKSU均为VFS1.4钩子
-
-### 无限重启？
-1. 一加：colorOS15魔改过f2fs，已经不兼容GKI的f2fs，除非进入rec清除Data重启
-2. 小米：一些机型因为启动引导因avb验证导致无法启动分区，如红米k50，需要关闭avb验证（https://magiskcn.com/disable-avb）
-3. 其他：其他手机也可能因为相似的兼容问题，如果有可以补充。。。
-
-### Tips
-1. 关于安全补丁
-    - 手机设置里的安全补丁时间与GKI内核的安全补丁时间**无关**，请无视它
-2. 关于android版本
-    - 手机系统的安卓版本与GKI内核的安卓版本无关，应当对照手机内核版本的 **android**
-    - 假设手机设置的内核版本为 5.10.66-**android12**-9-00001-g41ff3fa8fop9-ab8161528
-    - 那么你需要刷入[在此](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)下载的 **android12**-5.10.66-2022-01-AnyKernel3.zip 文件
-
-### 下载
-可以[在此](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)下载您的资源
-1. 关于Anykernel3.zip，下载即用！
-   - 然后使用刷入软件，例如[HorizonKernelFlasher](https://github.com/libxzr/HorizonKernelFlasher/releases)进行刷写内核
-2. 关于boot.img，下载与你内核格式相匹配的（无压缩、gz、lz4），[参考](https://kernelsu.org/zh_CN/guide/installation.html#install-by-kernelsu-boot-image) **找到合适的 boot.img** 一节
-    - 使用[FASTBOOT](https://magiskcn.com/)刷入，或者使用刷写软件刷写到ROOT所在插槽的boot分区(例如爱玩机、Kernelflasher)
+> <img width="296" height="152" alt="image" src="https://github.com/user-attachments/assets/e60316c3-c760-4178-a4c8-b94d0ef0b5b2" />
 
 
 
-### 支持
-| 功能 | 说明 |
-| --- | --- |
-| [KernelSU](https://kernelsu.org/zh_CN/) | 包括**原版、MKSU、SUKISU、NEXT** |
-| [SUSFS4](https://gitlab.com/simonpunk/susfs4ksu) | 在内核层面辅助KSU隐藏的功能补丁 |
-| [LZ4KD](https://github.com/ShirkNeko/SukiSU_patch/tree/main/other) | 听说是来自HUAWEI source的ZRAM算法，补丁由[云彩之枫](http://www.coolapk.com/u/24963680)移植 |
-| [LZ4 1.10.0](https://github.com/lz4/lz4/releasesr) | GKI内核默认的LZ4算法升级 |
+---
 
-<details>
+## 📚 文档与指南
 
-<summary>还支持这几种算法，可在scene的ZRAM切换</summary>
+详细说明请查阅 [**GitHub Wiki（中英双语）**](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
 
-### LZ4K、LZ4HC、deflate、842、~~zstdn~~、lz4k_oplus
+Wiki 涵盖内容：
+- [**🔰 教程**](https://zzh20188.github.io/GKI_KernelSU_SUSFS/guide.html)
+- 📥 下载/刷入内核
+- 💡 使用技巧 Tips
+- 🆘 救砖指南
+- 📊 内核版本兼容性说明
 
-</details>
+---
 
-### KSU管理器 & SUSFS模块
-由于一些原因，你不可缺少最新管理器和模块(见下)
-> ##### 如果长期不更新管理器，而只更新内核也就是使用ak3刷入，那么软件显示可能异常，会显得你和别人不一样，如SUKISU显示LKM，NEXT一些参数显示未知
-> ##### SUKISU内置SUSFS功能相对模块，缺失try mount/umount数量显示功能，以及自定义界面的一些选项
-#### 在编译完成后，你会看到类似 `SukiSU-Manager(13235)` 和 `susfs-release-1.5.2+_537cdba` 的压缩包，简单来说这就是与内核一同上传的***最新管理器与susfs模块***。
+## 🛡️ GhostLock 安全修复
 
-![例子](./assets/action.png)
+GhostLock 是影响 Linux 内核的一组高风险漏洞，包括 `CVE-2026-43499` 和 `CVE-2026-53163`。攻击者不需要 Root 权限，也不需要额外的内核模块，只要能够在设备上运行普通应用或本地代码，就可能利用该漏洞。
 
-#### 同样的，在[Release](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)的底部也同样包含它们
+### 可能造成的危害
 
-![release](./assets/release.png)
+- **系统崩溃或强制重启：** 普通应用即可触发内核崩溃，导致设备无法正常使用，未保存的数据也可能丢失。
+- **本地权限提升：** 更复杂的利用可以绕过 Android 权限边界，让普通应用获得内核级权限，进而控制整个设备。
+- **现成利用已经公开：** 目前已有拒绝服务 PoC，以及针对 Android ARM64 平台的完整提权利用链，风险不再停留在理论阶段。
+- **没有可靠的临时规避方法：** 常见的权限限制、应用隔离或系统加固只能增加利用难度，无法彻底阻止系统崩溃或其他利用方式。
 
+该漏洞不能直接从网络远程触发，但恶意应用、共享运行环境中的不可信程序，或者已经通过其他漏洞取得代码执行能力的攻击者，都可以进一步利用它。因此，安装来源不明的应用、模块或脚本时尤其需要注意。
 
-### 内核构建时间
-在构建内核时，可以指定内核的构建时间。在Action的输入框中输入指定格式的字符即可。
-如：**Thu Jul 17 14:26:50 UTC 2025**
-> 这个时间表示的是2025年7月17日的14:26:50（协调世界时间，UTC）。
-当你没有输入指定时间，则为构建内核时的时间
+本项目支持在构建 5.10、5.15、6.1、6.6 和 6.12 内核时检查并应用完整修复。该选项默认关闭，如需加入 GhostLock 防护，请在触发构建时手动开启 `CVE-2026-43499 rtmutex 修复链`。两个漏洞的修复必须同时存在，工作流会自动处理这一点；已经包含完整修复的内核不会重复打补丁。
 
+该修复已完成 [84 个内核版本的全量构建验证](https://github.com/zzh20188/GKI_KernelSU_SUSFS/actions/runs/29509099128)。如果想了解漏洞原理、受影响范围、公开利用和缓解措施，请阅读 CIQ 的详细文章：[GhostLock Mitigation](https://kb.ciq.com/article/rocky-linux/rl-ghostlock-mitigation)。
 
-### 紧急救援指南
+---
 
-> [!IMPORTANT]
-> **触发条件**  
-> 当设备因以下原因无法启动时需执行救援：  
-> - 刷入错误/不兼容的内核
-> - 内核版本适配异常（如5.10.66刷233版本的内核）
-1. 进入FASTBOOT模式
+## 🧪 Droidspaces 容器支持（实验性）
 
-- 物理键组合：电源+音量- 或者 ADB命令： `adb reboot bootloader`
+> **实验性功能：** 不保证所有 GKI 版本均能成功构建或启动，刷入前请务必备份 Boot 镜像。
+>
+> **TIPS：** 工作流使用的是 [Droidspaces](https://github.com/ravindu644/Droidspaces-OSS) 的 [官方补丁](https://github.com/ravindu644/Droidspaces-OSS/tree/main/Documentation/resources/kernel-patches/GKI) ，如有更好的补丁可以提个issues，此外由于存在三个补丁，或许需要反复试验以确保其中一个适配你的机型，请根据他人或实际经验来选择。
 
-2. 执行刷写命令
-```bash
-$ fastboot flash boot <boot.img文件全称>
+[Droidspaces](https://github.com/ravindu644/Droidspaces-OSS) 是一个轻量级的 Linux 容器工具，可以在 Android 上运行完整的 Linux 环境（支持 systemd、OpenRC 等），用于搭建开发环境、运行服务器等场景。
+
+**支持范围：** 5.10 / 5.15 / 6.1 / 6.6 / 6.12
+
+**使用方式：** 在手动触发构建时，选择 `Droidspaces 容器支持` 选项：
+
+| 选项 | 说明 |
+|:---:|:---|
+| `off` | 关闭（默认） |
+| `678` | 使用 6_7_8 槽位补丁（推荐） |
+| `123` | 使用 1_2_3 槽位补丁（备用） |
+| `345` | 使用 3_4_5 槽位补丁（备用） |
+
+> **提示：** 6.12 内核仅有一个补丁，选择任意非关闭选项即可。
+
+**如果构建失败或刷入后 bootloop：** 可尝试切换到其他槽位补丁（如 678 → 123 或 345），不同内核子版本可能适用不同的补丁。
+
+## 🔧 自定义提交配置
+通过 [`config/config`](config/config) 文件可以指定 SUSFS 和 SukiSU 使用特定的 commit。
+
+**什么是提交 (commit)？**
+
+提交是一串哈希字符串，代表仓库在某个时间点的状态。例如将 sukisu 设为 `4b8644515fe6d87a109129e590ccd9d33a855dca`，即使用 1 月 30 日的 SukiSU 版本编译内核。
+
+**为什么要指定提交？**
+
+- 当上游仓库更新引入 bug 或兼容性问题时，可回退到稳定版本
+- 当 SUSFS 与 SukiSU 版本不同步导致编译失败时，可手动指定兼容的版本
+
+**如何获取提交哈希？**
+
+- SUSFS: [susfs4ksu](https://gitlab.com/simonpunk/susfs4ksu)
+- SukiSU: [SukiSU-Ultra commits/builtin](https://github.com/SukiSU-Ultra/SukiSU-Ultra/commits/builtin/)
+
+以 SUSFS 为例，先选择分支，再复制对应提交的哈希值：
+
+![选择分支](assets/susfs_branch.png)
+![复制提交](assets/susfs_commit.png)
+
+```ini
+# 启用自定义提交
+custom=true
+
+# SUSFS 各分支的 commit hash
+gki-android12-5.10=
+gki-android13-5.15=
+gki-android14-6.1=
+gki-android15-6.6=
+
+# SukiSU 的 commit hash
+sukisu=
 ```
-### 原版镜像获取途径
-1. 从现有固件提取
 
-- 卡刷包：解压后使用[payload-dumper工具](https://magiskcn.com/payload-dumper-go-boot.html)
+> 留空则使用该分支的最新提交。
 
-- 线刷包：直接解压获取boot.img
+---
 
-2.外部资源获取
+## 🧪 伪装 `/proc/config.gz`（Stock Config）
 
-- 社区平台搜索：机型+原厂boot (如XDA/酷安)
+这是一个进阶技巧，不需要在工作流里手动开关。  
+构建时会自动检测 `config/stock_defconfig` 是否存在：存在则应用，不存在则跳过。
 
-- [移动端在线提取远程获取](https://magiskcn.com/payload-dumper-compose.html)
+使用方法：
+1. 确保设备当前是官方 ROM + 官方内核。
+2. 获取设备上的 `/proc/config.gz`（可在手机端或电脑端操作）。
+3. 解压后重命名为 `stock_defconfig`，上传到仓库 [`config/`](config/) 目录并提交（可直接在手机端完成）。
 
-> [!TIP]
-> ### 内核版本兼容性说明
-> 
-> **1. 跨子版本刷机规则**  
-> 当手机GKI主版本为5.10.x时（如5.10.168），可刷写同主版本更高子版本的内核（如5.10.198）。  
-> 关于**X-lts**版本，以 `android12-5.10.X-lts-AnyKernel3.zip` 为例：
-> - **X-lts** 表示长期支持版（子版本号最大，当前示例为5.10.238）
-> - LTS随着GKI源码更新，编译版本号将持续递增（其他如198的版本，是永久固定的）
-> - ⚠️ 注意：LTS虽为最新，**但**最新版≠最稳定（如6.6.x存在自动重启BUG）
-> 
-> **2. 内核版本伪装方法**  
-> 在MT管理器终端执行：
-> ```bash
-> uname -r | sed 's/^[^-]*//'
-> ```
-> 获取后直接复制，将此版本号填入Action编译面板即可实现内核版本伪装。
-> 
-> **3. 编译优化建议**  
-> 修改 [配置文件](.github/workflows/kernel-a12-5.10.yml)（如kernel-a12-5.10.yml）：
-> - ▶️ 删除/注释不需要的GKI版本配置（**加速编译**）
+构建流程会自动：
+- 复制到内核源码：`$KERNEL_ROOT/common/arch/arm64/configs/stock_defconfig`
+- 在 `$KERNEL_ROOT/common/kernel/Makefile` 中将 `$(obj)/config_data` 规则从 `$(KCONFIG_CONFIG)` 切换为 `arch/arm64/configs/stock_defconfig`
+- 使编译产物中的 `/proc/config.gz` 更贴近你的官方内核配置
+---
 
-### 更多内容
-可以提及您的意见...我会尝试！
+## 🛠️ 安装后推荐
+
+### 📦 模块推荐
+
+<table>
+<tr>
+<th>模块名称</th>
+<th>仓库</th>
+<th>频道</th>
+</tr>
+<tr>
+<td><b>LSPosed-Irena</b></td>
+<td><a href="https://github.com/re-zero001/LSPosed-Irena">GitHub</a></td>
+<td><a href="https://t.me/lsposed_irena">Telegram</a></td>
+</tr>
+<tr>
+<td><b>Zygisk Next</b></td>
+<td><a href="https://github.com/Dr-TSNG/ZygiskNext">GitHub</a></td>
+<td rowspan="2"><a href="https://t.me/real5ec1cff">Telegram</a></td>
+</tr>
+<tr>
+<td><b>TrickyStore</b></td>
+<td><a href="https://github.com/5ec1cff/TrickyStore">GitHub</a></td>
+</tr>
+</table>
+
+### 🔧 Xposed 模块
+
+| 模块 | 说明 |
+|:---:|:---|
+| **FuseFixer** | [Unicode零宽修复模块](https://t.me/real5ec1cff/268) |
+
+### App
+
+| 名称 | 说明 |
+|:---:|:---|
+| **Scene** | [官网](https://omarea.com/#/) |
+---
+
+<div align="center">
+
+**更多内容持续更新中...**
+
+⭐ 如果这个项目对你有帮助，请点个 Star 支持一下！
+
+</div>
